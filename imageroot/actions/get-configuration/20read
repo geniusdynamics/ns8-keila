@@ -17,6 +17,13 @@ import agent
 # Prepare return variable
 config = {}
 
+if os.path.exists("keila.env"):
+    data = agent.read_envfile("keila.env")
+    config["KEILA_USER"] = data["KEILA_USER"]
+    config["KEILA_PASSWORD"] = data["KEILA_PASSWORD"]
+else:
+    config["KEILA_USER"] = ""
+    config["KEILA_PASSWORD"] = ""
 # Read current configuration from the environment file
 config["host"] = os.getenv("TRAEFIK_HOST","")
 config["http2https"] = os.getenv("TRAEFIK_HTTP2HTTPS") == "True"
