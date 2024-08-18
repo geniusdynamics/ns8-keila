@@ -14,20 +14,43 @@ import agent
 data = json.load(sys.stdin)
 
 #This is specific to you module, so you need to change it accordingly.
-# we read a json stdin {"vars1":true, "var2":"foo", "vars3": 3} and we writ it to .config/state/environment
-# Upper case to set environment variable and minor case to read from stdin
 
-# this values must exists in the json stdin
-# agent.set_env("MAIL_SERVER", data["mail_server"])
-# agent.set_env("LDAP_DOMAIN", data["ldap_domain"])
+host = data.get("host")
+URL_HOST = f"https://{host}"
 
-# you can add default values for the following variables
-# agent.set_env("MAIL_DOMAIN",data.get("mail_domain",""))
-# agent.set_env("WOWORKERSCOUNT",data.get("workers_count",3))
-# agent.set_env("AUXILIARYACCOUNT",data.get("auxiliary_account",True))
-# agent.set_env("ACTIVESYNC",data.get("activesync",False))
+# KEILA_USER		root@localhost	Email address for the root user
+# KEILA_PASSWORD
+KEILA_USER = data.get("KEILA_USER", "admin@admin.com")
+KEILA_PASSWORD = data.get("KEILA_PASSWORD", "admin")
 
+# Email configuration
+rdb = agent.redis_connect(use_replica=True)
+smtp_settings = agent.get_smarthost_settings(rdb)
 
-# Make sure everything is saved inside the environment file
-# just before starting systemd unit
+SMTP_HOST = smtp_settings['host']
+SMTP_PORT = smtp_settings['port']
+SMTP_USERNAME = smtp_settings['username']
+SMTP_PASSWORD = smtp_settings['password']
+SMTP_ENCRYPTION = smtp_settings['encrypt_smtp']
+SMTP_TLSVERIFY = smtp_settings['tls_verify']
+
+# MAILER_SMTP_HOST	yes	-	Hostname of the SMTP server
+# MAILER_SMTP_PORT		587	Port of the SMTP server
+# MAILER_SMTP_USER	yes	-	Username for the SMTP server
+# MAILER_SMTP_PASSWORD	yes	-	Password for the SMTP server
+# MAILER_SMTP_FROM_EMAIL		MAILER_SMTP_USER	FROM email address
+# MAILER_ENABLE_SSL		false	Enable SSL/TLS by setting to true
+# MAILER_ENABLE_STARTTLS		false	Enable STARTTLS by setting to true
+keila = {
+    "KEILA_USER": KEILA_USER,
+    "KEILA_PASSWORD": KEILA_PASSWORD,
+    "MAILER_SMTP_HOST": SMTP_HOST,
+    "MAILER_SMTP_PORT": SMTP_PORT,
+    "MAILER_SMTP_USER": SMTP_USERNAME,
+    "MAILER_SMTP_PASSWORD": SMTP_PASSWORD,
+    "MAILER_SMTP_FROM_EMAIL": SMTP_USERNAME,
+    "MAILER_ENABLE_SSL": 'true' if SMTP_ENCRYPTION == 'ssl' else 'false',
+    "MAILER_ENABLE_STARTTLS": 'true' if SMTP_TLSVERIFY == 'tls' else 'false'
+}
+agent.write_envfile("keila.env", keila)
 #agent.dump_env()
