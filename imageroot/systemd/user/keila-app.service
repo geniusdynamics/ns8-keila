@@ -21,8 +21,6 @@ ExecStartPre=-runagent discover-smarthost
 ExecStart=/usr/bin/podman run --conmon-pidfile %t/keila-app.pid \
     --cidfile %t/keila-app.ctr-id --cgroups=no-conmon \
     --pod-id-file %t/keila.pod-id --replace -d --name  keila-app \
-    --volume keila-app:/var/www/html/:Z \
-    --volume ./config:/tmp:Z \
     --env-file=%S/state/keila.env \
     --env-file=%S/state/keila-db.env \
     ${KEILA_IMAGE}
