@@ -61,6 +61,27 @@
                 $t("settings.enabled")
               }}</template>
             </cv-toggle>
+            <cv-text-input
+                :label="$t('Keila User')"
+                placeholder="User"
+                v-model="KEILA_USER"
+                class="mg-bottom"
+                :invalid-message="$t(error.KEILA_USER)"
+                :disabled="loading.getConfiguration || loading.configureModule"
+                ref="KEILA_USER"
+            >
+            </cv-text-input>
+            <cv-text-input
+                :label="$t('Keila Password')"
+                placeholder="************"
+                v-model="KEILA_PASSWORD"
+                class="mg-bottom"
+                :invalid-message="$t(error.KEILA_PASSWORD)"
+                :disabled="loading.getConfiguration || loading.configureModule"
+                ref="KEILA_PASSWORD"
+                type="password"
+            >
+            </cv-text-input>
               <!-- advanced options -->
             <cv-accordion ref="accordion" class="maxwidth mg-bottom">
               <cv-accordion-item :open="toggleAccordion[0]">
@@ -125,6 +146,8 @@ export default {
       host: "",
       isLetsEncryptEnabled: false,
       isHttpToHttpsEnabled: true,
+      KEILA_USER: "",
+      KEILA_PASSWORD: "",
       loading: {
         getConfiguration: false,
         configureModule: false,
@@ -135,6 +158,8 @@ export default {
         host: "",
         lets_encrypt: "",
         http2https: "",
+        KEILA_USER: "",
+        KEILA_PASSWORD: "",
       },
     };
   },
@@ -202,6 +227,8 @@ export default {
       this.host = config.host;
       this.isLetsEncryptEnabled = config.lets_encrypt;
       this.isHttpToHttpsEnabled = config.http2https;
+      this.KEILA_USER = config.KEILA_USER;
+      this.KEILA_PASSWORD = config.KEILA_PASSWORD;
 
       this.loading.getConfiguration = false;
       this.focusElement("host");
@@ -271,6 +298,8 @@ export default {
             host: this.host,
             lets_encrypt: this.isLetsEncryptEnabled,
             http2https: this.isHttpToHttpsEnabled,
+            KEILA_USER: this.KEILA_USER,
+            KEILA_PASSWORD: this.KEILA_PASSWORD,
           },
           extra: {
             title: this.$t("settings.instance_configuration", {
