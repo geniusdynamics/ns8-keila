@@ -9,6 +9,7 @@ import json
 import sys
 import agent
 import os
+import secrets
 
 # Try to parse the stdin as JSON.
 # If parsing fails, output everything to stderr
@@ -34,4 +35,13 @@ postgres_config = {
     "POSTGRES_DB": POSTGRES_DB
 }
 agent.write_envfile("database.env", postgres_config)
+# DB_URL	yes	-	URL following the schema postgres://user:password@host/database
+DB_URL = f"postgres://{POSTGRES_USER}:{POSTGRES_PASSWORD}@postgresql-app/{POSTGRES_DB}"
+SECRET_KEY_BASE = secrets.token_urlsafe(64)
+
+keila = {
+    "DB_URL": DB_URL,
+    "SECRET_KEY_BASE": SECRET_KEY_BASE
+}
+agent.write_envfile("keila-db.env", keila)
 #agent.dump_env()
