@@ -23,9 +23,9 @@ ExecStart=/usr/bin/podman run --conmon-pidfile %t/keila-app.pid \
     --pod-id-file %t/keila.pod-id --replace -d --name  keila-app \
     --volume keila-app:/var/www/html/:Z \
     --volume ./config:/tmp:Z \
-    --env=NGINX_* \
-    --env 'CONFIG_DATABASE_URI="postgresql://postgres:Nethesis,1234@127.0.0.1:5432/keila"' \
-    ${NGINX_IMAGE}
+    --env-file=%S/state/keila.env \
+    --env-file=%S/state/keila-db.env \
+    ${KEILA_IMAGE}
 ExecStop=/usr/bin/podman stop --ignore --cidfile %t/keila-app.ctr-id -t 10
 ExecReload=/usr/bin/podman kill -s HUP keila-app
 SyslogIdentifier=%u
