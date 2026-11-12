@@ -15,7 +15,7 @@ Before=postgresql-app.service keila-app.service
 
 [Service]
 Environment=PODMAN_SYSTEMD_UNIT=%n
-EnvironmentFile=-%S/state/environment
+EnvironmentFile=-%E/state/environment
 Restart=always
 TimeoutStopSec=70
 ExecStartPre=/bin/rm -f %t/keila.pid %t/keila.pod-id
