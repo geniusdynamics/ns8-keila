@@ -10,19 +10,17 @@ After=keila.service postgresql-app.service
 
 [Service]
 Environment=PODMAN_SYSTEMD_UNIT=%n
-EnvironmentFile=%S/state/environment
-EnvironmentFile=-%S/state/smarthost.env
-WorkingDirectory=%S/state
+EnvironmentFile=%E/state/environment
+WorkingDirectory=%E/state
 Restart=always
 TimeoutStopSec=70
 ExecStartPre=/bin/mkdir -p config
 ExecStartPre=/bin/rm -f %t/keila-app.pid %t/keila-app.ctr-id
-ExecStartPre=-runagent discover-smarthost
 ExecStart=/usr/bin/podman run --conmon-pidfile %t/keila-app.pid \
     --cidfile %t/keila-app.ctr-id --cgroups=no-conmon \
     --pod-id-file %t/keila.pod-id --replace -d --name  keila-app \
-    --env-file=%S/state/keila.env \
-    --env-file=%S/state/keila-db.env \
+    --env-file=%E/state/keila.env \
+    --env-file=%E/state/keila-db.env \
     ${KEILA_IMAGE}
 ExecStop=/usr/bin/podman stop --ignore --cidfile %t/keila-app.ctr-id -t 10
 ExecReload=/usr/bin/podman kill -s HUP keila-app
