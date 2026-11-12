@@ -6,14 +6,14 @@
   "categories": [],
   "authors": [
     {
-      "name": "Name Surname",
-      "email": "author@yourmail.org"
+      "name": "Genius Dynamics",
+      "email": "support@genius.ke"
     }
   ],
   "docs": {
     "documentation_url": "https://docs.keila.com/",
-    "bug_url": "https://github.com/NethServer/dev",
-    "code_url": "https://github.com/author/ns8-keila"
+    "bug_url": "https://github.com/geniusdynamics/ns8-keila/issues",
+    "code_url": "https://github.com/geniusdynamics/ns8-keila"
   },
-  "source": "ghcr.io/nethserver/keila"
+  "source": "ghcr.io/geniusdynamics/keila"
 }
