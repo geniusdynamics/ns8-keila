@@ -17,7 +17,8 @@ reponame="keila"
 # Node.js 25+ no longer ships Corepack, install it from npm
 # renovate: datasource=npm packageName=corepack
 corepack_version=0.36.0
-keila_version="0.14"
+# renovate: datasource=docker packageName=docker.io/pentacent/keila
+keila_version=0.14
 # Create a new empty container image
 container=$(buildah from scratch)
 
@@ -49,7 +50,8 @@ buildah config --entrypoint=/ \
     --label="org.nethserver.authorizations=traefik@node:routeadm" \
     --label="org.nethserver.tcp-ports-demand=1" \
     --label="org.nethserver.rootfull=0" \
-    --label="org.nethserver.images=docker.io/postgres:15.5-alpine3.19 docker.io/pentacent/keila:${keila_version}" \
+    --label="org.nethserver.min-core=3.0.0" \
+    --label="org.nethserver.images=docker.io/postgres:18.7-alpine3.24 docker.io/pentacent/keila:${keila_version}" \
     "${container}"
 # Commit the image
 buildah commit "${container}" "${repobase}/${reponame}"

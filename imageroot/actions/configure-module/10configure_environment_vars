@@ -25,6 +25,7 @@ KEILA_PASSWORD = data.get("KEILA_PASSWORD", "admin")
 
 # Email configuration
 rdb = agent.redis_connect(use_replica=True)
+smtp_settings = agent.get_smarthost_settings(rdb)
 
 SMTP_HOST = smtp_settings['host']
 SMTP_PORT = smtp_settings['port']
