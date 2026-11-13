@@ -1,9 +1,12 @@
 {
   "name": "keila",
   "description": {
-    "en": "My keila module"
+    "en": "Keila is a self-hosted newsletter tool to design campaigns, manage contacts and send email to your subscribers.",
+    "it": "Keila è uno strumento di newsletter self-hosted per creare campagne, gestire i contatti e inviare email agli iscritti."
   },
-  "categories": [],
+  "categories": [
+    "communication"
+  ],
   "authors": [
     {
       "name": "Genius Dynamics",
