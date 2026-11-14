@@ -18,7 +18,7 @@ reponame="keila"
 # renovate: datasource=npm packageName=corepack
 corepack_version=0.36.0
 # renovate: datasource=docker packageName=docker.io/pentacent/keila
-keila_version=0.14
+keila_version=0.40
 # Create a new empty container image
 container=$(buildah from scratch)
 
